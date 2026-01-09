@@ -1,0 +1,2 @@
+db_password: "change-me"
+jwt_secret: "change-me-in-prod-change-me-in-prod"

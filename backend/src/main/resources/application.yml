@@ -1,0 +1,19 @@
+spring:
+  application:
+    name: ticketflow
+  jackson:
+    serialization:
+      WRITE_DATES_AS_TIMESTAMPS: false
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+
+ticketflow:
+  security:
+    jwt:
+      secret: ${TICKETFLOW_JWT_SECRET:change-me-in-prod-change-me-in-prod}
+      issuer: ticketflow
+      ttlMinutes: 120

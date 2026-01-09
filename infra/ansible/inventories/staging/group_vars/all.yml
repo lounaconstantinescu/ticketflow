@@ -1,0 +1,18 @@
+app_name: "ticketflow"
+app_user: "ticketflow"
+app_group: "ticketflow"
+
+backend:
+  port: 8080
+  jar_url: "http://artefacts.local/ticketflow/backend/ticketflow.jar"
+  java_opts: "-Xms256m -Xmx512m"
+  spring_profile: "test"
+
+frontend:
+  web_root: "/var/www/ticketflow"
+  build_url: "http://artefacts.local/ticketflow/frontend/ticketflow-frontend.tar.gz"
+  api_base_url: "http://stg01.local/api"
+
+nginx:
+  server_name: "stg01.local"
+  listen_port: 80

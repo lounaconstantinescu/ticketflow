@@ -1,0 +1,8 @@
+spring:
+  profiles:
+    active: {{ backend.spring_profile }}
+
+ticketflow:
+  security:
+    jwt:
+      secret: {{ jwt_secret | default('change-me-in-prod-change-me-in-prod') }}

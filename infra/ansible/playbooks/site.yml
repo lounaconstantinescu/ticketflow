@@ -1,0 +1,9 @@
+- name: Deploy TicketFlow (backend + frontend + nginx)
+  hosts: app
+  become: true
+  serial: 1
+  roles:
+    - common
+    - backend
+    - frontend
+    - nginx

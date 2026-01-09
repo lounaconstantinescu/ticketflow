@@ -1,0 +1,17 @@
+[Unit]
+Description={{ app_name }} Spring Boot
+After=network.target
+
+[Service]
+User={{ app_user }}
+Group={{ app_group }}
+WorkingDirectory=/opt/{{ app_name }}
+Environment=SPRING_PROFILES_ACTIVE={{ backend.spring_profile }}
+Environment=TICKETFLOW_JWT_SECRET={{ jwt_secret | default('change-me-in-prod-change-me-in-prod') }}
+ExecStart=/usr/bin/java {{ backend.java_opts }} -jar /opt/{{ app_name }}/bin/{{ app_name }}.jar --spring.config.additional-location=/etc/{{ app_name }}/
+Restart=always
+RestartSec=5
+SuccessExitStatus=143
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,25 @@
+- name: Install nginx vhost
+  ansible.builtin.template:
+    src: ticketflow.conf.j2
+    dest: "/etc/nginx/sites-available/{{ app_name }}.conf"
+    mode: "0644"
+  notify: reload nginx
+
+- name: Enable vhost
+  ansible.builtin.file:
+    src: "/etc/nginx/sites-available/{{ app_name }}.conf"
+    dest: "/etc/nginx/sites-enabled/{{ app_name }}.conf"
+    state: link
+  notify: reload nginx
+
+- name: Disable default site
+  ansible.builtin.file:
+    path: "/etc/nginx/sites-enabled/default"
+    state: absent
+  notify: reload nginx
+
+- name: Ensure nginx started
+  ansible.builtin.systemd:
+    name: nginx
+    enabled: true
+    state: started

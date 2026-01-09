@@ -1,0 +1,17 @@
+server {
+  listen {{ nginx.listen_port }};
+  server_name {{ nginx.server_name }};
+
+  root {{ frontend.web_root }};
+  index index.html;
+
+  location / {
+    try_files $uri /index.html;
+  }
+
+  location /api/ {
+    proxy_pass http://127.0.0.1:{{ backend.port }}/;
+    proxy_set_header Host $host;
+    proxy_set_header X-Real-IP $remote_addr;
+  }
+}

@@ -1,0 +1,53 @@
+- name: Create backend directories
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    owner: "{{ app_user }}"
+    group: "{{ app_group }}"
+    mode: "0755"
+  loop:
+    - "/opt/{{ app_name }}"
+    - "/opt/{{ app_name }}/bin"
+    - "/etc/{{ app_name }}"
+
+- name: Download backend jar
+  ansible.builtin.get_url:
+    url: "{{ backend.jar_url }}"
+    dest: "/opt/{{ app_name }}/bin/{{ app_name }}.jar"
+    owner: "{{ app_user }}"
+    group: "{{ app_group }}"
+    mode: "0644"
+  notify: restart backend
+
+- name: Render backend application.yml
+  ansible.builtin.template:
+    src: application.yml.j2
+    dest: "/etc/{{ app_name }}/application.yml"
+    owner: "{{ app_user }}"
+    group: "{{ app_group }}"
+    mode: "0640"
+  notify: restart backend
+
+- name: Install systemd unit
+  ansible.builtin.template:
+    src: ticketflow.service.j2
+    dest: "/etc/systemd/system/{{ app_name }}.service"
+    mode: "0644"
+  notify:
+    - daemon reload
+    - restart backend
+
+- name: Ensure backend service started
+  ansible.builtin.systemd:
+    name: "{{ app_name }}"
+    enabled: true
+    state: started
+
+- name: Wait for healthcheck
+  ansible.builtin.uri:
+    url: "http://127.0.0.1:{{ backend.port }}/actuator/health"
+    return_content: true
+  register: health
+  retries: 15
+  delay: 2
+  until: health.status == 200

@@ -1,0 +1,13 @@
+:root { font-family: system-ui, Arial, sans-serif; line-height: 1.4; }
+body { margin: 0; background: #fafafa; }
+a { color: inherit; }
+.container { max-width: 980px; margin: 0 auto; padding: 16px; }
+.card { background: white; border: 1px solid #e5e5e5; border-radius: 8px; padding: 12px; margin: 12px 0; }
+.row { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
+.spacer { flex: 1; }
+input, select, textarea { padding: 8px; border: 1px solid #cfcfcf; border-radius: 6px; min-width: 220px; }
+textarea { min-height: 90px; min-width: 320px; }
+button { padding: 8px 12px; border-radius: 6px; border: 1px solid #cfcfcf; background: #fff; cursor: pointer; }
+button.primary { border-color: #222; }
+.badge { border: 1px solid #dedede; border-radius: 999px; padding: 2px 10px; font-size: 12px; background: #fff; }
+.small { font-size: 12px; color: #666; }

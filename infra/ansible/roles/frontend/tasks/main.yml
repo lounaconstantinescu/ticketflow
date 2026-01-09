@@ -1,0 +1,29 @@
+- name: Create web root
+  ansible.builtin.file:
+    path: "{{ frontend.web_root }}"
+    state: directory
+    owner: www-data
+    group: www-data
+    mode: "0755"
+
+- name: Download frontend build archive
+  ansible.builtin.get_url:
+    url: "{{ frontend.build_url }}"
+    dest: "/tmp/{{ app_name }}-frontend.tar.gz"
+    mode: "0644"
+
+- name: Extract frontend build
+  ansible.builtin.unarchive:
+    src: "/tmp/{{ app_name }}-frontend.tar.gz"
+    dest: "{{ frontend.web_root }}"
+    remote_src: true
+    owner: www-data
+    group: www-data
+
+- name: Render runtime config.js
+  ansible.builtin.template:
+    src: config.js.j2
+    dest: "{{ frontend.web_root }}/config.js"
+    owner: www-data
+    group: www-data
+    mode: "0644"
