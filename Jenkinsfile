@@ -26,7 +26,7 @@ pipeline {
         stage('Backend - Test') {
             steps {
                 dir('backend') {
-                    sh 'mvn -B -ntp test'
+                    bat 'mvn -B -ntp test'
                 }
             }
         }
@@ -34,7 +34,7 @@ pipeline {
         stage('Backend - Package') {
             steps {
                 dir('backend') {
-                    sh 'mvn -B -ntp -DskipTests package'
+                    bat 'mvn -B -ntp -DskipTests package'
                 }
             }
         }
@@ -42,8 +42,8 @@ pipeline {
         stage('Frontend - Install & Test') {
             steps {
                 dir('frontend') {
-                    sh 'npm ci'
-                    sh 'npm test'
+                    bat 'npm ci'
+                    bat 'npm test'
                 }
             }
         }
@@ -51,7 +51,7 @@ pipeline {
         stage('Frontend - Build') {
             steps {
                 dir('frontend') {
-                    sh 'npm run build'
+                    bat 'npm run build'
                 }
             }
         }
